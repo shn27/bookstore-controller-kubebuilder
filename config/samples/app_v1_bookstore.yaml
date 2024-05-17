@@ -1,0 +1,9 @@
+apiVersion: app.shn.me/v1
+kind: BookStore
+metadata:
+  labels:
+    app.kubernetes.io/name: bookstore-controller-kubebuilder
+    app.kubernetes.io/managed-by: kustomize
+  name: bookstore-sample
+spec:
+  # TODO(user): Add fields here
