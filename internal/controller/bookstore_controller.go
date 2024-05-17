@@ -52,6 +52,9 @@ type BookStoreReconciler struct {
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.17.3/pkg/reconcile
 func (r *BookStoreReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	fmt.Println("==================================================")
+	fmt.Println(req.NamespacedName)
+	klog.Info("Reconciling BookStore")
 	log := log.FromContext(ctx)
 	// Fetch the Bookstore instance
 	// The purpose is check if the Custom Resource for the Kind Bookstore
@@ -104,8 +107,20 @@ func (r *BookStoreReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 
 // SetupWithManager sets up the controller with the Manager.
 func (r *BookStoreReconciler) SetupWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewControllerManagedBy(mgr).
+	err := ctrl.NewControllerManagedBy(mgr).
 		For(&appv1.BookStore{}).
 		Owns(&appsv1.Deployment{}).
+		Owns(&corev1.Service{}).
 		Complete(r)
+
+	if err != nil {
+		return err
+	}
+
+	//err = ctrl.NewControllerManagedBy(mgr).For(&appsv1.Deployment{}).Complete(r)
+	//if err != nil {
+	//	return err
+	//}
+
+	return nil
 }

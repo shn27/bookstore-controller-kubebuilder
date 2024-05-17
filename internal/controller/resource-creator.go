@@ -2,11 +2,11 @@ package controller
 
 import (
 	appv1 "github.com/bookstore-controller-kubebuilder/api/v1"
-	v1 "k8s.io/api/admission/v1"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
+	//samplev1alpha1 "k8s.io/sample-controller/pkg/apis/samplecontroller/v1alpha1"
 )
 
 func getService(bookstore *appv1.BookStore) *corev1.Service {
@@ -15,7 +15,8 @@ func getService(bookstore *appv1.BookStore) *corev1.Service {
 			Name:      bookstore.Spec.DeploymentName,
 			Namespace: bookstore.Namespace,
 			OwnerReferences: []metav1.OwnerReference{
-				*metav1.NewControllerRef(bookstore, v1.SchemeGroupVersion.WithKind("BookStore")), // TODO
+				//*metav1.NewControllerRef(bookstore, samplev1alpha1.SchemeGroupVersion.WithKind("BookStore")), // TODO
+				*metav1.NewControllerRef(bookstore, appv1.GroupVersion.WithKind("BookStore")),
 			},
 		},
 		Spec: corev1.ServiceSpec{
@@ -39,7 +40,7 @@ func getDeployment(bookstore *appv1.BookStore) *appsv1.Deployment {
 			Name:      bookstore.Spec.DeploymentName,
 			Namespace: bookstore.Namespace,
 			OwnerReferences: []metav1.OwnerReference{
-				*metav1.NewControllerRef(bookstore, v1.SchemeGroupVersion.WithKind("BookStore")), // TODO
+				*metav1.NewControllerRef(bookstore, appv1.GroupVersion.WithKind("BookStore")),
 			},
 		},
 		Spec: appsv1.DeploymentSpec{
