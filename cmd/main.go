@@ -35,6 +35,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
 	appv1 "github.com/bookstore-controller-kubebuilder/api/v1"
+	appv1alpha1 "github.com/bookstore-controller-kubebuilder/api/v1alpha1"
 	"github.com/bookstore-controller-kubebuilder/internal/controller"
 	//+kubebuilder:scaffold:imports
 )
@@ -48,6 +49,7 @@ func init() {
 	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
 
 	utilruntime.Must(appv1.AddToScheme(scheme))
+	utilruntime.Must(appv1alpha1.AddToScheme(scheme))
 	//+kubebuilder:scaffold:scheme
 }
 
@@ -117,6 +119,7 @@ func main() {
 		// after the manager stops then its usage might be unsafe.
 		// LeaderElectionReleaseOnCancel: true,
 	})
+
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
 		os.Exit(1)
@@ -129,6 +132,14 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "BookStore")
 		os.Exit(1)
 	}
+	if err = (&controller.GetGroupReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "GetGroup")
+		os.Exit(1)
+	}
+	
 	//+kubebuilder:scaffold:builder
 
 	if err := mgr.AddHealthzCheck("healthz", healthz.Ping); err != nil {

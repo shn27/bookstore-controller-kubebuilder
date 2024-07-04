@@ -1,0 +1,23 @@
+# permissions for end users to view getgroups.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: bookstore-controller-kubebuilder
+    app.kubernetes.io/managed-by: kustomize
+  name: getgroup-viewer-role
+rules:
+- apiGroups:
+  - app.shn.me
+  resources:
+  - getgroups
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - app.shn.me
+  resources:
+  - getgroups/status
+  verbs:
+  - get

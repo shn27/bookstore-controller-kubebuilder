@@ -33,6 +33,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	appv1 "github.com/bookstore-controller-kubebuilder/api/v1"
+	appv1alpha1 "github.com/bookstore-controller-kubebuilder/api/v1alpha1"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -73,6 +74,9 @@ var _ = BeforeSuite(func() {
 	Expect(cfg).NotTo(BeNil())
 
 	err = appv1.AddToScheme(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
+
+	err = appv1alpha1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
 	//+kubebuilder:scaffold:scheme

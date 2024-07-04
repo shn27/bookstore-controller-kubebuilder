@@ -1,0 +1,34 @@
+# The following patch enables a conversion webhook for the CRD
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: getgroup1s.app.shn.me
+spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        # adjust the values based on your environment
+        caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUREVENDQWZXZ0F3SUJBZ0lVYUR5MlVYUnZwcjlPZ0NzcWNYVCtzOHdzWG9nd0RRWUpLb1pJaHZjTkFRRUwKQlFBd0ZURVRNQkVHQTFVRUF3d0tkMlZpYUc5dmF5MWpZVEFnRncweU5EQTNNREl3TlRRNE5UUmFHQTh5TURVeApNVEV4T0RBMU5EZzFORm93RlRFVE1CRUdBMVVFQXd3S2QyVmlhRzl2YXkxallUQ0NBU0l3RFFZSktvWklodmNOCkFRRUJCUUFEZ2dFUEFEQ0NBUW9DZ2dFQkFOelZkdDBPRDZWQjFuYVhEUlRmUEpTVHNGdFhZdW1TMmwvNWFNeW0KVkwzcUtnRjFib3hOUGRDUTM0dHBraUtDRmFzNWV6Y2o5NDJSRHhTaW12ZWZLOU1YdGh1ZU92Nlc2S0NueFRDRQpEZjFxdFphKzV5Q2RFeUptMk1RSHNFMUdUT1VteG1ZdFluNzhPd2N4ZklYTFBqVElGZk5Kc0d6ZEtRazNySE00CmljTEdibi9IclVHcXJNUWRXL011akNKL2VDVzRUNWs1dVo3ZENJczErNG5sN2tlQmovdlVDM2tuZUhTcTlGcHcKWExIUWh1WlRYektoNDNldkxkMGR6M0N6emRpcVhNcXNvRksyUGJKTjZLMVpadEFBM3duRHNFWlNMVmd1U0hHZAo4SVVmZmdUTUFxaGNaODJnTGhBTkY4dTk4ZXFiOUdzbkY3ZmZWWmlsazdsTUJCMENBd0VBQWFOVE1GRXdIUVlEClZSME9CQllFRkFiUThsWlc1NG1Vd2YwSGhZZEh3VWc4ZHlRd01COEdBMVVkSXdRWU1CYUFGQWJROGxaVzU0bVUKd2YwSGhZZEh3VWc4ZHlRd01BOEdBMVVkRXdFQi93UUZNQU1CQWY4d0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQgpBRHZqTnhmVTRTbGthbUpTSFVZZ0JDa20rQ0VwZWYrMU5IU1FidG5ZMUtSWFBURVlYNW92SXN1Zlc3RGRJeXo5CktiMVlhWEM1YksxRkpCTHBFYkIrMjJTUzJZdXlSN0VKQ0ljV0Zlb0pRQ3NZb3dKVkhocUlsbk0yRjgrb0xRTVkKVzd0WWVmcEpXTGhZMXF2ZnlNRXFKZXdicys2S2x4WVdpM1lxcmZiMk1rNWRDc3U3dmhONGJRcUduQzVuZjNnRgo3dkYvN0VFWi9UQVF4OGVJN3dSWmtpcHBKTk5nZXZ5OE4yeVd1OTIvM3hvR3JwY3U3OFVLd0w3aUJBejhFK2I5ClN3RDJFcXhLNk9JZ0hKTUd5SFJsMnRLb2l5NXU1WXRpeXpiMmhBSkVmSUJrMHQ4YzU5VnRKc3l0QU5JSUltcTkKeFFScWhVVGZXaXBXeEdpekcyZ0UxK009Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+        url: https://172.24.0.1:9443/convert
+        #service:
+          #name: webhook-service
+          #path: /convert
+      conversionReviewVersions:
+      - v1
+  group: app.shn.me
+  names:
+    kind: GetGroup
+    plural: getgroup1s
+    singular: getgroup
+  scope: Namespaced
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object

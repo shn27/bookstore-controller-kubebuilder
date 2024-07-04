@@ -30,3 +30,29 @@ rules:
   - get
   - patch
   - update
+- apiGroups:
+  - app.shn.me
+  resources:
+  - getgroups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - app.shn.me
+  resources:
+  - getgroups/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - app.shn.me
+  resources:
+  - getgroups/status
+  verbs:
+  - get
+  - patch
+  - update

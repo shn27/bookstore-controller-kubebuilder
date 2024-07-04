@@ -17,4 +17,17 @@ resources:
   kind: BookStore
   path: github.com/bookstore-controller-kubebuilder/api/v1
   version: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: shn.me
+  group: app
+  kind: GetGroup
+  path: github.com/bookstore-controller-kubebuilder/api/v1alpha1
+  version: v1alpha1
+  webhooks:
+    defaulting: true
+    validation: true
+    webhookVersion: v1
 version: "3"

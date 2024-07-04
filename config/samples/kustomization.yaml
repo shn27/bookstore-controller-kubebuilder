@@ -1,4 +1,5 @@
 ## Append samples of your project ##
 resources:
 - app_v1_bookstore.yaml
+- app_v1alpha1_getgroup.yaml
 #+kubebuilder:scaffold:manifestskustomizesamples
